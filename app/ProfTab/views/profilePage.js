@@ -19,7 +19,7 @@ export default class ProfilePage extends Component {
     // }
     static navigationOptions = ({ navigation, screenProps }) => ({
     header: null
-    
+
   });
      constructor(props) {
     super(props);
@@ -28,33 +28,39 @@ export default class ProfilePage extends Component {
         {
             icon: 'chat',
             txt: '我的评价',
-            
+            jump: null
         },
          {
             icon: 'favorite-border',
-            txt: '我的收藏',
-            
+            txt: '我的订单',
+            jump: 'OrderPage'
         },
          {
             icon: 'place',
             txt: '我的地址',
-            
+            jump: null
         },
          {
             icon: 'headset-mic',
             txt: '客服中心',
-            
+            jump: null
         },
          {
             icon: 'info-outline',
             txt: '帮助与反馈',
-            
+            jump: null
         },
         ]
         }
      }
      onLoginPress = () => {
           this.props.navigation.navigate('LoginPage');
+     }
+     itemPress = (tar) => {
+       if (tar != null) {
+         console.log('arat', tar)
+         this.props.navigation.navigate(tar);
+       }
      }
     render() {
         return (
@@ -84,11 +90,13 @@ export default class ProfilePage extends Component {
            <List>
             {
                 this.state.list.map((item, i) => (
+                <TouchableOpacity onPress = {() => this.itemPress(item.jump)}>
                 <ListItem
                     key={i}
                     title={item.txt}
                     leftIcon={{name: item.icon}}
                 />
+                </TouchableOpacity>
                 ))
             }
             </List>
@@ -121,7 +129,7 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         borderColor: '#ff1744',
         borderWidth : 2
-        
+
     },
     userNameContainer:{
         flex: 1,

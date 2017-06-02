@@ -10,7 +10,7 @@ import { CheckBox, Card, Grid, Col, Button} from 'react-native-elements'
 export default class CartPage extends Component {
      static navigationOptions = ({ navigation, screenProps }) => ({
         title: null,
-    
+
   });
     constructor(props) {
         super(props)
@@ -56,7 +56,7 @@ export default class CartPage extends Component {
         })
     };
     onPayPress = () => {
-        this.props.navigation.navigate('CheckPage');
+        this.props.navigation.navigate('CHECK_OUT', carID=3);
     }
     onCardPress = (index) => {
         newCardState = this.state.cardState.slice()
@@ -71,13 +71,13 @@ export default class CartPage extends Component {
     render() {
         return(
             <View style={{flex: 1}}>
-            <ScrollView style={{flex: 1 }}>                                   
+            <ScrollView style={{flex: 1 }}>
                       {
                           this.state.cardState.map((item, i) => {
                               return(
-                              
+
                               <Card  key={i} containerStyle={{justifyContent: 'space-around', padding: 0}} flexDirection='row'>
-                               
+
                                 <Grid>
                                     <Col size={1} containerStyle={{justifyContent: 'center', alignItems: 'center'}}>
                                         <CheckBox
@@ -113,13 +113,13 @@ export default class CartPage extends Component {
                                 <Text>Total: {this.state.totalM}</Text>
                             </Col>
                         <Col size={4} onPress={ () => this.onPayPress()}  activeOpacity={0.5} containerStyle={{justifyContent: 'center',alignItems:'center', borderWidth:1,height: 50, backgroundColor: 'red'}}>
-                        
+
                                 <Text style={{textAlign:'center'}}>Pay</Text>
-                            {/*<Button title='Pay' 
+                            {/*<Button title='Pay'
                             raised
                             large
                             buttonStyle={{margin: 0,  backgroundColor: 'red', width: 80}}/>*/}
-                        
+
                         </Col>
                     </Grid>
                     </View>

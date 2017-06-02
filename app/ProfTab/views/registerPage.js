@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {hostip} from '../../config'
+
 import {
   StyleSheet,
   Text,
@@ -20,9 +21,11 @@ import {
     FormValidationMessage
 }  from 'react-native-elements';
 
-export default class RegisterPage extends Component {
+import {connect} from 'react-redux'
+import {mapStateToProps, mapDispatchToProps} from '../../app'
+export  class RegisterPage extends Component {
      static navigationOptions = ({ navigation, screenProps }) => ({
-    title: "Register",
+    title: "注册",
 
   });
     constructor(props) {
@@ -77,6 +80,11 @@ export default class RegisterPage extends Component {
                       return { register_state: 'FINISHED' }
                   }
               )
+              this.props.action_login(responseJson.DATA)
+              ToastAndroid.showWithGravity(
+                  '注册成功',
+                  ToastAndroid.SHORT, ToastAndroid.BOTTOM
+              )
               this.props.navigation.navigate('ProfilePage');
           }
           else {
@@ -127,3 +135,7 @@ export default class RegisterPage extends Component {
         );
     }
 }
+
+
+export default connect( mapStateToProps,
+  mapDispatchToProps)(RegisterPage)

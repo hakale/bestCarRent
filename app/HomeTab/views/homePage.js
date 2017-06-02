@@ -26,7 +26,7 @@ import {
 export default class HomePage extends Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
     header: null
-    
+
   });
   constructor(props) {
     super(props);
@@ -36,43 +36,20 @@ export default class HomePage extends Component {
         'John', 'Joel', 'James', 'Jimmy', 'Jackson', 'Jillian', 'Julie', 'Devin', 'Jillian', 'Julie', 'Devin', 'Jillian', 'Julie', 'Devin'
       ])
     };
-    
+
   }
-  onCardPress = (carName) => {
+  onCardPress = (CarID) => {
       console.log('card press:')
-      console.log(carName)
-      this.props.navigation.navigate('DETAIL', carName);
+      this.props.navigation.navigate('DETAIL', CarID);
     };
   render() {
-    
+
     return (
       <View style={{flex: 1}}>
          <SearchBar
                         round
                         lightTheme
                         placeholder='Type Here...' />
-         
-          {/*<View style={{height:300}}>
-            <Swiper style={styles.wrapper}
-                      showsButtons={false}
-                      removeClippedSubviews={false}
-                      bounces={true}
-                      height={250} >
-
-              <View style={styles.slide1}>
-                <Image source={{uri: 'http://7xlkdd.com1.z0.glb.clouddn.com/IMG_0507.JPG'}}/>
-              </View>
-              <View style={styles.slide1}>
-                <Text style={styles.text}>Hello Swiper</Text>
-              </View>
-              <View style={styles.slide2}>
-                <Text style={styles.text}>Beautiful</Text>
-              </View>
-              <View style={styles.slide3}>
-                <Text style={styles.text}>And simple</Text>
-              </View>
-            </Swiper>
-         </View>*/}
          <ScrollView style={styles.marginVertical} >
             <View style={{height:150}}>
          <BannerLite
@@ -114,21 +91,21 @@ export default class HomePage extends Component {
                 <Text>租</Text>
               </View>
             </TouchableOpacity>
-            
+
 
           </View>
           <View style={{flex:2}}>
             <ListView
               dataSource={this.state.dataSource}
-              renderRow={(rowData) => 
-              <TouchableOpacity activeOpacity={0.5} onPress={() => this.onCardPress({carName: 'BMW'})}>
+              renderRow={(rowData) =>
+              <TouchableOpacity activeOpacity={0.5} onPress={() => this.onCardPress({CarID: 'BMW'})}>
                 <ExCard  carStyle='p' capacity='2' />
               </TouchableOpacity>
               }
             />
           </View>
          </ScrollView>
-          
+
       </View>
     );
   }
@@ -142,10 +119,10 @@ const styles = StyleSheet.create({
     // marginVertical: 5
   },
   buyActionStyle:{
-    width: 70, 
-    height: 70, 
-    borderRadius:35, 
-    justifyContent: 'space-around', 
+    width: 70,
+    height: 70,
+    borderRadius:35,
+    justifyContent: 'space-around',
     alignItems: 'center'
   },
   slide1: {

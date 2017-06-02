@@ -9,10 +9,64 @@ export const GET_ORDER = 'GET_ORDER';
 
 
 export function action_login(userinfo) {
-  dispatch({
+    console.log('userinfo', userinfo)
+    return {
     type: LOGIN,
     userinfo: userinfo
-  })
+  }
+}
+
+export function login(userinfo) {
+  return (dispatch) => {
+  dispatch(action_login(userinfo))
+}
+}
+
+export function gene_order(car_id, startTime, endTime) {
+  return (dispatch, getState) => {
+    const {userinfo} = getState();
+
+  }
+
+}
+
+
+export function action_get_orders(orders) {
+  return {
+    type: GET_ORDER,
+    orders: orders
+  }
+}
+
+
+export function get_orders() {
+
+  return (dispatch, getState) => {
+    const {userinfo} = getState().appData;
+    fetch(hostip + '/api/post/get_orders', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: userinfo.email,
+            passwd: userinfo.passwd,
+        })
+    })
+        .then((response) => {
+            return response.json()})
+        .then((responseJson) => {
+            if (responseJson.MESSAGE == 'SUCCESS') {
+                dispatch(action_get_orders(responseJson.DATA))
+            }
+        })
+        .catch((error) => {
+            console.log('get page flow fail')
+        });
+  }
+
+
 }
 
 export function action_logout() {
@@ -21,7 +75,14 @@ export function action_logout() {
   })
 }
 
-export function action_get_page_flow() {
+export function action_get_page_flow(data) {
+  return {
+    type: GET_PAGE_FLOW,
+    data: data
+  }
+}
+
+export function get_page_flow() {
   fetch(hostip + '/api/post/get_page_flow', {
       method: 'GET',
       headers: {
@@ -33,10 +94,7 @@ export function action_get_page_flow() {
           return response.json()})
       .then((responseJson) => {
           if (responseJson.MESSAGE == 'SUCCESS') {
-              dispatch({
-                type: GET_PAGE_FLOW,
-                page_flow: responseJson.DATA
-              })
+              dispatch(action_get_page_flow(responseJson.DATA))
           }
       })
       .catch((error) => {

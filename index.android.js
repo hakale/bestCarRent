@@ -3,61 +3,25 @@
  * https://github.com/facebook/react-native
  * @flow
  */
-import {combineReducers} from 'redux';
-import React, { Component } from 'react';
-import { addNavigationHelpers } from 'react-navigation';
+
+import React from 'react'
 import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  ListView,
-  ScrollView,
-  Image
-} from 'react-native';
-import {userAction} from './app/reducers/reducers'
-import {Tab} from './app/router'
+  AppRegistry
+} from 'react-native'
+
+import { Provider } from 'react-redux'
+import configureStore from './app/configureStore'
+import App from './app/app'
 
 
-const appReducer = combineReducers({
-  nav: userAction
-});
 
-const store = createStore(appReducer);
-
-function mapSateToProps(state) {
-    return {
-        state: state
-    }
-}
-
-class App extends Component {
-  render() {
-    return (
-      <Tab navigation={addNavigationHelpers({
-        dispatch: this.props.dispatch,
-        state: this.props.nav,
-      })} />
-    );
-  }
-}
-const AppWithNavigationState =  connect(mapSateToProps) (App)
+const store = configureStore()
 
 
-class Root extends React.Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <AppWithNavigationState />
-      </Provider>
-    );
-  }
-}
-
-export default class bestCarRent extends Component{
-  render() {
-    return (<Tab />);
-  }
-}
+const bestCarRent = () => (
+  <Provider store={store}>
+    <App {...this.props}/>
+  </Provider>
+)
 
 AppRegistry.registerComponent('bestCarRent', () => bestCarRent);

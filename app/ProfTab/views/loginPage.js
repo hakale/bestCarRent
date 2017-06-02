@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 var ProgressBar = require('ProgressBarAndroid');
 import {hostip} from '../../config'
-import {action_login} from '../../reducers/action'
+
 import {
   StyleSheet,
   Text,
@@ -12,7 +12,8 @@ import {
   Alert,
   ToastAndroid
 } from 'react-native';
-
+import {connect} from 'react-redux'
+import {mapStateToProps, mapDispatchToProps} from '../../app'
 import {
     List ,
     Button,
@@ -22,14 +23,18 @@ import {
     FormValidationMessage
 }  from 'react-native-elements';
 
-export default class LoginPage extends Component {
-    static navigationOptions = ({ navigation, screenProps }) => ({
-    title: "Login",
+export  class LoginPage extends Component {
+    static navigationOptions = ({ navigation, screenProps }) => {
+      // console.log('navigation', navigation)
+      // console.log('screenProps,', screenProps)
+      return {
+      title: "登录",
 
-  });
+    }
+  }
     constructor(props) {
         super(props);
-        console.log(this.navigationOptions)
+        console.log(this.props)
         this.state = {
             loginstate: 'UN_LOGIN',
             email: '',
@@ -53,23 +58,22 @@ export default class LoginPage extends Component {
         )
     }
     onLoginPress = () => {
-        if (this.state.email.length == 0 || this.state.passwd.length == 0) {
-            Alert.alert(
-                    '',
-                    '输入完整信息',
-                    [
-                        { text: '是', onPress: () => console.log('OK Pressed') },
-                    ],
-                    { cancelable: false }
-                )
-            return;
-        }
+        // if (this.state.email.length == 0 || this.state.passwd.length == 0) {
+        //     Alert.alert(
+        //             '',
+        //             '输入完整信息',
+        //             [
+        //                 { text: '是', onPress: () => console.log('OK Pressed') },
+        //             ],
+        //             { cancelable: false }
+        //         )
+        //     return;
+        // }
         this.setState(
             () => {
                 return {loginstate: 'LOGINING'}
             }
         )
-        console.log('login press')
         console.log(this.state.loginstate)
         console.log(this.state.passwd)
         fetch(hostip + '/api/post/login', {
@@ -84,9 +88,9 @@ export default class LoginPage extends Component {
             })
         })
             .then((response) => {
-                console.log(response)
+                // console.log(response)
                 //console.log(response.formData())
-                console.log(response.body)
+                // console.log(response.body)
                 return response.json()})
             .then((responseJson) => {
                 console.log('Json', responseJson)
@@ -96,7 +100,13 @@ export default class LoginPage extends Component {
                             return { loginstate: 'FINISHED' }
                         }
                     )
-                    this.props.dispatch(action_login(responseJson.DATA))
+                    // console.log(Store)
+
+                    this.props.login(responseJson.DATA)
+                    ToastAndroid.showWithGravity(
+                        '登录成功',
+                        ToastAndroid.SHORT, ToastAndroid.BOTTOM
+                    )
                     this.props.navigation.navigate('ProfilePage');
                 }
                 else {
@@ -136,22 +146,25 @@ export default class LoginPage extends Component {
                 <View style={{ marginVertical: 10 }}>
                     <FormLabel>邮箱</FormLabel>
                     {/*<FormInput onChangeText={someFunction}/>*/}
-                    <FormInput ref='forminput' textInputRef='email' onChangeText={(text) => this.email_input(text)} />
+                    <FormInput placeholder='fff' ref='forminput' textInputRef='email' onChangeText={(text) => this.email_input(text)} />
                     <FormLabel>密码</FormLabel>
                     <FormInput
                         secureTextEntry={true}
                         maxLength={16}
+                        placeholder='fff'
                         returnKeyLabel='登录' onChangeText={(text) => this.password_input(text)} />
                     {/*<FormValidationMessage>Error message</FormValidationMessage>*/}
                 </View>
                 <View style={{ justifyContent: 'space-around' }} >
-                    <Button title='Login' backgroundColor='#0d47a1'
+                    <Button title='登录' backgroundColor='#0d47a1'
                         onPress={() => this.onLoginPress()} />
                     <View style={{ height: 20 }} />
-                    <Button title='Register' backgroundColor='#0d47a1'
+                    <Button title='注册' backgroundColor='#0d47a1'
                         onPress={() => this.onRegPress()} />
                 </View>
             </View>
         );
     }
 }
+export default connect(  mapStateToProps,
+  mapDispatchToProps)(LoginPage)

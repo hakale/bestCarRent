@@ -7,9 +7,9 @@ export default CartStackNavi = StackNavigator(
         CartPage: {
             screen: CartPage
         },
-        CheckPage: {
+        CHECK_OUT: {
             screen: CheckPage
-        },
+        }
     },
     {
 
